@@ -1,10 +1,11 @@
 
 function redirect(){
-    window.location.href="../pages/login.html";
+    console.log("f clled")
+    window.location.href="./pages/login.html";
 }
 
 function redirectToSignup(){
-    window.location.href="../pages/index.html"
+    window.location.href="../index.html"
 }
 
 //login
