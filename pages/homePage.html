@@ -3,19 +3,26 @@
 <head>
 <title>Vanilla JS</title>
 <style>
-    .inner_div{
-        height: 95vh;
-        width: 100%;
-        background-color: rgba(33, 133, 255, 0.473);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .product-list {
+      height: 500px;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 5%;
+    }
+    .card-img-top {
+      padding: 10px;
+      height: 200px;
+      width: 100px;
+    }
+    ul {
+      list-style: none;
     }
 </style>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
-<body>
+<body onload="fetchProducts()">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -39,36 +46,42 @@
     </div>
     </nav>
 
-    <div class="inner_div">
-        <div class="card" style="width: 18rem;">
-            <img src="https://cdn.clippingpath.in/wp-content/uploads/2017/11/clipping_path_with_shadow_after_01.jpg" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-
-          <div class="card" style="width: 18rem;">
-            <img src="https://ik.imagekit.io/clippingpathexperts/photo-retouching/photo-retouching-dust-scatch-spots-removing-01-after_2w8uSe0HQ.jpg?ik-sdk-version=javascript-1.4.3&updatedAt=1643977757471" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-
-          <div class="card" style="width: 18rem;">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyI2p2s3QQmEy_8f8NV7reQCTg0j_sYdxhFCJG8npdXefnNludlCESlpiFByzQD8UKUvA&usqp=CAU" class="card-img-top" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <a href="#" class="btn btn-primary">Buy</a>
-            </div>
-          </div>
-    </div>
+    <div id="prod-div"></div>
 
 <script>
+
+    function fetchProducts(){
+      console.log("api function called");
+      fetch("https://fakestoreapi.com/products")
+      .then(res=>res.json())
+      .then(json=>loadProducts(json))
+    }
+
+    function loadProducts(products){
+      console.log("load product function called");
+      var prod = document.querySelector('#prod-div');
+      console.log(products);
+
+      var htmlstr = `
+      <ul class="product-list">
+        ${products.map((product) => 
+           `<li key={product.key} class="list-div">
+            <div class="card" style="width: 18rem;">
+            <img src="` + product.image + `" class="card-img-top" alt="..."/>
+            <div class="card-body">
+              <h5 class="card-title">` + product.title + `</h5>
+              <p class="card-text">`+ product.category + `</p>
+              <a href="#" class="btn btn-primary">Add to cart</a>
+            </div>
+            </div>
+            </li>`
+        )}
+      </ul>
+      `;
+
+      prod.innerHTML = htmlstr;
+
+    }
 
     function logout(){
         localStorage.removeItem("currentUserEmail");
