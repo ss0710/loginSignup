@@ -3,12 +3,18 @@
 <head>
 <title>Vanilla JS</title>
 <style>
+    #cart-div {
+        display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    }
 </style>
 <script src="./js/file.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
-<body>
+<body onload="fetchCart()">
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
@@ -30,7 +36,67 @@
     </ul>
     </div>
 </div>
+
 </nav>
+
+<h1 style="padding:3%; text-align:center;">Cart Items</h1>
+
+<div id="cart-div">
+</div>
+
+<script>
+
+function fetchCart(){
+    var cartdata = new Array();
+    if(JSON.parse(localStorage.getItem("cart"))){
+        cartdata = JSON.parse(localStorage.getItem("cart"));
+        cartdata.forEach(element => {
+                    let div1=document.createElement("div");
+                    let img=document.createElement("img");
+                    let div2=document.createElement("div");
+                    let p1=document.createElement("p");
+                    let p2=document.createElement("p");
+                    let p3=document.createElement("p");
+                    let mainDiv=document.getElementById("cart-div");
+                    let addBtn=document.createElement("button");
+
+
+                    div1.classList.add("card");
+                    div1.style.width="280px";
+                    // div1.style.height="430px"
+                    div1.style.display="flex";
+                    div1.style.alignItems="center";
+                    div1.style.marginBottom="10px"
+                    mainDiv.appendChild(div1);
+                    img.className+="card-img-top";
+                    img.alt="loading..."
+                    img.src=`${element.img}`;
+
+                    div1.appendChild(img);
+                    div2.classList.add("card-body");
+                    img.insertAdjacentElement("afterend",div2);
+                    img.style.objectFit="contain";
+                    img.style.maxWidth="200px";
+                    img.style.maxHeight="200px";
+                    p2.className+="card-text";
+                    p2.innerText="Rs. "+Math.ceil(element.price);
+                    p3.className+="card-text";
+                    p3.style.fontWeight="300";
+                    p3.innerText=element.description;
+                    div2.appendChild(p3);
+                    div2.appendChild(p2);
+
+                    addBtn.innerText="remove";
+                    div2.appendChild(addBtn);
+
+                    addBtn.addEventListener("click",()=>{
+                    //   addToCart(element);
+                    })
+                })
+    }
+}
+
+</script>
 
 </body>
 </html>

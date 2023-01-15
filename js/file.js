@@ -1,6 +1,26 @@
 
+function addToCart(product){
+    alert("Item added successfully");
+    console.log("add tocart function called");
+    console.log(product);
+    var cartdata = new Array();
+    if(JSON.parse(localStorage.getItem("cart"))){
+        cartdata = JSON.parse(localStorage.getItem("cart"));
+    }
+
+    cartdata.push({
+        "img": product.image,
+        "description": product.title,
+        "category": product.category,
+        "price": product.price
+    })
+
+    localStorage.setItem("cart", JSON.stringify(cartdata));
+}
+
+//routing 
+
 function redirect(){
-    console.log("f clled")
     window.location.href="./pages/login.html";
 }
 
