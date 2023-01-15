@@ -74,7 +74,7 @@ function signUp(Email, Name, PhoneNumber, Password){
     })
         localStorage.setItem("users", JSON.stringify(users_data));
         alert("Successfully registered");
-        window.location.href="../pages/login.html";
+        window.location.href="./pages/login.html";
     }
 }
 
